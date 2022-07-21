@@ -12,3 +12,9 @@ def mark_book_read(title):
         if book["title"] == title:
             book["read"] = True
             print(f'The book {book["title"]} has been successfully updated')
+            
+def delete_book(title):
+    global books
+    books = [book for book in books if book["title"] != title]
+
+print('database executed!!')

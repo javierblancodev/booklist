@@ -20,9 +20,9 @@ def user_input(message):
 def display_books():
     for book in database.books:
         if book["read"]:
-            status = "finished"
+            status = "Finished"
         else:
-            status = "unfinished"
+            status = "Unfinished"
         print(f'Book title: {book["title"]}, author: {book["author"]}, status: {status}')
 
 def menu(run_program):
@@ -43,7 +43,7 @@ def menu(run_program):
             print(f'outsite function: {database.books}')
         elif user_choice == 'd':
             title = user_input('Please introduce the title of the want you want to delete')
-            
+            database.delete_book(title)
         elif user_choice == 'q':
             run_program = False
         else:
