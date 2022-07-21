@@ -39,20 +39,16 @@ def menu(run_program):
             display_books()
         elif user_choice == 'r':
             title = user_input('Please introduce the title of the book you want to mark as read')
-            # pass it to a function in the database to mark the book as read there
+            database.mark_book_read(title)
+            print(f'outsite function: {database.books}')
         elif user_choice == 'd':
             title = user_input('Please introduce the title of the want you want to delete')
-            # pass it to a function in the database to delete the book there
+            
         elif user_choice == 'q':
             run_program = False
         else:
             print('Sorry, I do not understand you. Try again.')
 
-# def prompt_add_book ask for name and author
-# def list_books shows all books in our list
-# def prompt_read_book ask for a book name and change it to "read" in our list
-# def prompt_delete_book ask for a book name and remove book from list
-
 menu(run_program)
 
-print(database.books)
+print("Come Back Soon!")
