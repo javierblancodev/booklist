@@ -17,14 +17,6 @@ def user_input(message):
     data = input(f'{message}\n').title()
     return data
 
-def display_books():
-    for book in database.books:
-        if book["read"]:
-            status = "Finished"
-        else:
-            status = "Unfinished"
-        print(f'Book title: {book["title"]}, author: {book["author"]}, status: {status}')
-
 def menu(run_program):
     
     while run_program:
@@ -36,18 +28,17 @@ def menu(run_program):
             database.add_book(title, author)
         elif user_choice == 'l':
             print("These are your books:")
-            display_books()
+            database.display_books()
         elif user_choice == 'r':
             title = user_input('Please introduce the title of the book you want to mark as read')
             database.mark_book_read(title)
-            print(f'outsite function: {database.books}')
         elif user_choice == 'd':
             title = user_input('Please introduce the title of the want you want to delete')
             database.delete_book(title)
         elif user_choice == 'q':
             run_program = False
         else:
-            print('Sorry, I do not understand you. Try again.')
+            print('Sorry, I do not understand you. Please, try again.')
 
 menu(run_program)
 
