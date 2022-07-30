@@ -1,3 +1,4 @@
+from click import prompt
 from utils import database
 
 print('Welcome to Booklyapp!')
@@ -17,28 +18,56 @@ def user_input(message):
     data = input(f'{message}\n').title()
     return data
 
+
 def menu(run_program):
     
     while run_program:
         user_choice = input(USER_OPTIONS).lower()
         
         if user_choice == 'a':
-            title = user_input('Please introduce the title of the book you want to add')
-            author = user_input('Please introduce the author\'s name')
-            database.add_book(title, author)
+            prompt_add_book()
         elif user_choice == 'l':
-            print("These are your books:")
-            database.display_books()
+            list_books()
         elif user_choice == 'r':
-            title = user_input('Please introduce the title of the book you want to mark as read')
-            database.mark_book_read(title)
+            prompt_read_book()
         elif user_choice == 'd':
-            title = user_input('Please introduce the title of the want you want to delete')
-            database.delete_book(title)
+            prompt_delete_book()
         elif user_choice == 'q':
             run_program = False
         else:
             print('Sorry, I do not understand you. Please, try again.')
+
+
+def prompt_add_book():
+    title = user_input('Please introduce the title of the book you want to add')
+    author = user_input('Please introduce the author\'s name')
+    database.add_book(title, author)
+
+
+def list_books():
+    print("These are your books:")
+    books = database.get_all_books()
+    if len(books) > 0:
+        
+        for book in books:
+            if book["read"]:
+                status = "Finished"
+            else:
+                status = "Unfinished"
+            print(f'Book title: {book["title"]}, author: {book["author"]}, status: {status}')
+    else:
+        print('You have no books in your collection yet')
+
+
+def prompt_read_book():
+    title = user_input('Please introduce the title of the book you want to mark as read')
+    database.mark_book_read(title)
+
+
+def prompt_delete_book():
+    title = user_input('Please introduce the title of the want you want to delete')
+    database.delete_book(title)
+
 
 menu(run_program)
 
