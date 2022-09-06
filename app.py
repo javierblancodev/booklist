@@ -1,4 +1,3 @@
-from click import prompt
 from utils import database
 
 print('Welcome to Booklyapp!')
@@ -35,7 +34,7 @@ def menu(run_program):
         elif user_choice == 'q':
             run_program = False
         else:
-            print('Sorry, I do not understand you. Please, try again.')
+            print('Please, insert a valid option.')
 
 
 def prompt_add_book():
@@ -50,11 +49,11 @@ def list_books():
     if len(books) > 0:
         
         for book in books:
-            if book["read"]:
-                status = "Finished"
-            else:
+            if book['read'] == "False":
                 status = "Unfinished"
-            print(f'Book title: {book["title"]}, author: {book["author"]}, status: {status}')
+            elif book['read'] == "True":
+                status = "Finished"
+            print(f'Book title: {book["name"]}, author: {book["author"]}, status: {status}')
     else:
         print('You have no books in your collection yet')
 
