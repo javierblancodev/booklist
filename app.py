@@ -20,6 +20,8 @@ def user_input(message):
 
 def menu(run_program):
     
+    database.create_book_table()
+    
     while run_program:
         user_choice = input(USER_OPTIONS).lower()
         

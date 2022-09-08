@@ -1,2 +1,0 @@
-Lib1,Carlos,False
-Lib3,Carolina,True

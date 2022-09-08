@@ -5,9 +5,16 @@ name,author,read\n
 
 BOOKS_FILE = 'books.txt'
 
+# Create initial database
+def create_book_table():
+    with open(BOOKS_FILE, 'w'):
+        pass
+
+
 def add_book(title, author):
     with open(BOOKS_FILE, 'a') as file:
         file.write(f'{title},{author},False\n')
+
 
 def get_all_books():
     with open(BOOKS_FILE, 'r') as file:
@@ -38,15 +45,14 @@ def _save_all_books(books):
         for book in books:
             file.write(f"{book['name']},{book['author']},{book['read']}\n")
 
+
 def delete_book(title):    
     
     books = get_all_books()
-    
     filtered_books = [ book for book in books if book['name'] != title ]
     
     if len(books) == len(filtered_books):
         print("Sorry, the book {} has not been registered yet".format(title))
-    
     else: 
         _save_all_books(filtered_books)
         print("{} has been successfully deleted".format(title))
