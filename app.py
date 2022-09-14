@@ -51,10 +51,10 @@ def list_books():
     if len(books) > 0:
         
         for book in books:
-            if book['read'] == "False":
-                status = "Unfinished"
-            elif book['read'] == "True":
+            if book['read']:
                 status = "Finished"
+            else:
+                status = "Unfinished"
             print(f'Book title: {book["name"]}, author: {book["author"]}, status: {status}')
     else:
         print('You have no books in your collection yet')

@@ -1,49 +1,52 @@
+import json
+
 """ 
-Format of the csv file: 
-name,author,read\n 
+Format of the json file: 
+
+[
+    {
+        'name': 'Clean Code',
+        'author': 'Robert,
+        'read': True
+    }
+]
+
 """
 
-BOOKS_FILE = 'books.txt'
+BOOKS_FILE = 'books.json'
 
 # Create initial database
 def create_book_table():
-    with open(BOOKS_FILE, 'w'):
-        pass
+    with open(BOOKS_FILE, 'w') as file:
+        json.dump([], file)        
 
 
 def add_book(title, author):
-    with open(BOOKS_FILE, 'a') as file:
-        file.write(f'{title},{author},False\n')
-
+    books = get_all_books()
+    books.append({'name': title, 'author': author, 'read': False})
+    _save_all_books(books)
+    
 
 def get_all_books():
     with open(BOOKS_FILE, 'r') as file:
-        lines = [line.strip().split(',') for line in file.readlines()]
+        return json.load(file)
 
-    return [
-        {'name': line[0], 'author': line[1], 'read': line[2] } for line in lines
-    ]
+
+def _save_all_books(books): 
+    with open(BOOKS_FILE, 'w') as file:
+        json.dump(books, file)
+            
 
 
 def mark_book_read(title):
     books = get_all_books()
     for book in books:
         if book["name"] == title:
-            book["read"] = "True"
+            book["read"] = True
             break
     else:
         print(f'Sorry, {title} is not recorded among your books')
     _save_all_books(books)
-    
-    
-def _save_all_books(books): 
-    """ We use underscore at front to tell other developers not to use this function.
-        It is like a private function in other programming languages but only conceptually, 
-        since python does not have this feature"""
-
-    with open(BOOKS_FILE, 'w') as file:
-        for book in books:
-            file.write(f"{book['name']},{book['author']},{book['read']}\n")
 
 
 def delete_book(title):    
