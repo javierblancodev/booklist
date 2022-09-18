@@ -1,4 +1,5 @@
-import json
+from multiprocessing import connection
+import sqlite3
 
 """ 
 Format of the json file: 
@@ -17,9 +18,18 @@ BOOKS_FILE = 'books.json'
 
 # Create initial database
 def create_book_table():
-    with open(BOOKS_FILE, 'w') as file:
-        json.dump([], file)        
-
+    # Create a connection with the database, while creating it if it is the first time and it does not exist yet
+    connection = sqlite3.connect('data.db')
+    # Create cursor out of this database to handle it
+    cursor = connection.cursor()
+    
+    # Create table (query) inside this database: the SQL query goes between the quotation as a string
+    cursor.execute('CREATE TABLE books(name TEXT PRIMARY KEY, author TEXT, status INTEGER)')
+    # SQLIte only support 5 types of data that can be null , integer, real (float), text (strings), blob (binary datafile to store images, documents, pdf...)
+    
+    # Commit queries that are held in memory for this database
+    cursor.commit()
+    # Close connection
 
 def add_book(title, author):
     books = get_all_books()
