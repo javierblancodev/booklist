@@ -1,5 +1,6 @@
 from multiprocessing import connection
 import sqlite3
+from unicodedata import name
 
 """ 
 Format of the json file: 
@@ -24,17 +25,25 @@ def create_book_table():
     cursor = connection.cursor()
     
     # Create table (query) inside this database: the SQL query goes between the quotation as a string
-    cursor.execute('CREATE TABLE books(name TEXT PRIMARY KEY, author TEXT, status INTEGER)')
+    cursor.execute('CREATE TABLE IF NOT EXIST books(name TEXT PRIMARY KEY, author TEXT, status INTEGER)')
     # SQLIte only support 5 types of data that can be null , integer, real (float), text (strings), blob (binary datafile to store images, documents, pdf...)
     
     # Commit queries that are held in memory for this database
-    cursor.commit()
+    connection.commit()
     # Close connection
+    connection.close()
 
 def add_book(title, author):
-    books = get_all_books()
-    books.append({'name': title, 'author': author, 'read': False})
-    _save_all_books(books)
+    connection = sqlite3.connect('data.base')
+    cursor = connection.cursor()
+    
+    # cursor.execute(f'INSERT INTO books VALUES("{title}", "{author}", 0)')
+    # Although the approach above will also work, this can be useb by hacker to perfomr a sql injection attack since any text will be pass in the database 
+    # (for example DROP TABLE) through the the variables. It is good practice therefore to follow the approach below where we place a tuple as second argument
+    # and then sql3 will insert this values in place of ?
+    cursor.execute('INSERT INTO books VALUES(?, ?, 0)', (title, author))
+    connection.commit()
+    connection
     
 
 def get_all_books():
