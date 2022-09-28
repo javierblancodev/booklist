@@ -56,6 +56,7 @@ def list_books():
             else:
                 status = "Unfinished"
             print(f'Book title: {book["name"]}, author: {book["author"]}, status: {status}')
+            # status = "Finished" if book["name"] else "Unfinished" # ternary operator in python
     else:
         print('You have no books in your collection yet')
 
