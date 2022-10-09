@@ -1,22 +1,16 @@
-
-import sqlite3
+from .database_connection import DatabaseConnection
+# change git branch to watch the normal version without context manager
 
 # Create initial database
 def create_book_table():
     # Create a connection with the database, while creating it if it is the first time and it does not exist yet
-    connection = sqlite3.connect('data.db')
-    # Create cursor out of this database to handle it
-    cursor = connection.cursor()
+    with DatabaseConnection() as connection:
+        # Create cursor out of this database to handle it
+        cursor = connection.cursor()
     
-    # Create table (query) inside this database: the SQL query goes between the quotation as a string
-    cursor.execute('CREATE TABLE IF NOT EXISTS books(name TEXT PRIMARY KEY, author TEXT, status INTEGER)')
-    # SQLIte only support 5 types of data that can be null , integer, real (float), text (strings), blob (binary datafile to store images, documents, pdf...)
+        # Create table (query) inside this database: the SQL query goes between the quotation as a string
+        cursor.execute('CREATE TABLE IF NOT EXISTS books(name TEXT PRIMARY KEY, author TEXT, status INTEGER)')
     
-    # Commit queries that are held in memory for this database
-    connection.commit()
-    # Close connection
-    connection.close()
-
 def add_book(title, author):
     connection = sqlite3.connect('data.db')
     cursor = connection.cursor()
